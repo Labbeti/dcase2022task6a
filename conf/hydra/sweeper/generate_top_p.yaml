@@ -1,0 +1,41 @@
+# @package hydra.sweeper
+sampler:
+  _target_: optuna.samplers.TPESampler
+  seed: 1234
+  consider_prior: true
+  prior_weight: 1.0
+  consider_magic_clip: true
+  consider_endpoints: false
+  n_startup_trials: 10
+  n_ei_candidates: 24
+  multivariate: false
+  warn_independent_sampling: true
+
+_target_: hydra_plugins.hydra_optuna_sweeper.optuna_sweeper.OptunaSweeper
+direction: maximize
+storage: null
+study_name: generate_top_p
+n_trials: 100
+n_jobs: 1
+
+search_space:
+  "pl.temperature":
+    type: float
+    low: 0.5
+    high: 1.5
+    step: 0.1
+  "pl.beam_size":
+    type: int
+    low: 1
+    high: 10
+    step: 1
+  "pl.beam_alpha":
+    type: float
+    low: 0.9
+    high: 1.1
+    step: 0.01
+  "pl.top_p":
+    type: float
+    low: 0.0
+    high: 1.0
+    step: 0.01

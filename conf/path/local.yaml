@@ -1,0 +1,17 @@
+# @package path
+
+# Parent log directory
+log_root: "logs"
+# Default data directory
+data: "data"
+tmp: "tmp"
+
+# For AudioCaps download
+youtube_dl: "youtube-dl"
+ffmpeg: "ffmpeg"
+# For SPICE metric
+java: "java"
+# For FSD50K download
+zip: "zip"
+torch_hub: null
+ext: "ext"

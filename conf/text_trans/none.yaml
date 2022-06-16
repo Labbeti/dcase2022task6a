@@ -1,0 +1,3 @@
+# @package text_trans
+
+_target_: "dcase2022task6a.utils.hydra.get_none"

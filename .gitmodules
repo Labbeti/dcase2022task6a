@@ -1,0 +1,3 @@
+[submodule "aac_datasets"]
+	path = aac_datasets
+	url = https://github.com/Labbeti/aac_datasets
