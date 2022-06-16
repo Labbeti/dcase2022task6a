@@ -1,0 +1,62 @@
+# @package _global_
+
+# Group params
+defaults:
+  - data: clotho
+  - path: local
+  - audio_trans: resample_spectro_mean
+  - text_trans: identity
+  - override hydra/job_logging: custom  # redirect log file to output_subdir
+  - _self_
+
+# Common params
+cpus: 4
+datetime: "${now:%Y-%m-%d_%H-%M-%S}"
+debug: false
+gpus: 0
+seed: 1234
+tag: "NOTAG"
+verbose: 1
+
+log:
+  save_dir: "${path.log_root}/${hydra:runtime.choices.data}"
+  name: "${hydra:job.name}"
+  version: "${datetime}_${tag}"
+
+hydra:
+  output_subdir: "${log.save_dir}/${log.name}/${log.version}/hydra"
+  run:
+    dir: "./"
+
+# Other params
+default: true
+nltk: ${default}
+spacy: ${default}
+bert: ${default}
+gensim: ${default}
+pann: "cnn10"
+passt: ${default}
+audioset_indices: ${default}
+function_words: ${default}
+stanford_nlp: ${default}
+meteor: ${default}
+spice: ${default}
+words: ${default}
+
+pack_to_hdf: true
+overwrite_hdf: false
+debug_lim_dset: null
+
+multirefs_mode: "none"
+multirefs_neighbors: 100
+multirefs_added: 4
+multirefs_overwrite: false
+multirefs_queue_size: 1024
+
+# Override data.download option
+data:
+  download: ${default}
+
+datafilter:
+  min_audio_size: 0.0
+  max_audio_size: inf

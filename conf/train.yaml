@@ -1,0 +1,78 @@
+# @package _global_
+
+defaults:
+  - data: clotho
+  - path: local
+  - pl: cnn10_transformer
+  - trainer: default
+  - audio_trans@audio_trans.train: spec_aug
+  - audio_trans@audio_trans.val: identity
+  - audio_trans@audio_trans.test: identity
+  - test_mode: best
+  - token@fit_token: word
+  - token@fit_token_2: none
+  - token@test_token: test
+  - override hydra/hydra_logging: colorlog
+  - override hydra/job_logging: custom  # redirect log file to output_subdir
+  - override hydra/sweeper: basic
+  - _self_
+
+# Common params
+cpus: 4
+datetime: "${now:%Y-%m-%d_%H-%M-%S}"
+debug: ${trainer.fast_dev_run}
+seed: 1234
+tag: "NOTAG"
+verbose: 1
+gpus: 1
+
+log:
+  _target_: "dcase2022task6a.utils.custom_logger.CustomTensorboardLogger"
+  save_dir: "${path.log_root}/${hydra:runtime.choices.data}"
+  name: "${hydra:job.name}_${hydra:runtime.choices.pl}"
+  version: "${datetime}_${tag}"
+  default_hp_metric: true
+  params:
+    datetime: "${datetime}"
+
+hydra:
+  # Set args save in board dir
+  output_subdir: "${log.save_dir}/${log.name}/${log.version}/hydra"
+  # Set hydra working dir
+  run:
+    dir: "./"
+  sweep:
+    dir: "${path.log_root}/sweep"
+
+
+# Other params
+epochs: 50
+resume: null
+save: true
+use_captioning_evaluator: true
+test_last: false
+out_crit: "${hydra:runtime.choices.data}_val/spider_preds"
+out_default: -1.0
+
+ckpt:
+  _target_: "dcase2022task6a.callbacks.custom_ckpt.CustomModelCheckpoint"
+  dirpath: "${log.save_dir}/${log.name}/${log.version}/checkpoints"
+  save_last: ${test_last}
+  save_top_k: 1
+  monitor: "val/loss"
+  mode: "min"
+  verbose: ${verbose}
+  filename: "{epoch}-{step}-mode_${ckpt.mode}-{${ckpt.monitor}:.4f}"  # default: "{epoch}-{step}"
+  log_best_score: true
+  save_after_epoch: null
+  create_symlink: true
+
+evaluator:
+  _target_: "dcase2022task6a.callbacks.evaluator.CaptioningEvaluator"
+  logdir: "${log.save_dir}/${log.name}/${log.version}"
+  java_path: "${path.java}"
+  ext_dpath: "${path.ext}"
+  verbose: ${verbose}
+  debug: ${debug}
+  save_to_csv: ${save}
+  save_dcase_csv_file: true

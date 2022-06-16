@@ -1,0 +1,11 @@
+# @package token
+
+_target_: "dcase2022task6a.tokenization.aac_tokenizer.AACTokenizer"
+
+level: "word"
+lowercase: true
+clean_punctuation: true
+
+backend: "spacy"
+
+model_name: "en_core_web_sm"

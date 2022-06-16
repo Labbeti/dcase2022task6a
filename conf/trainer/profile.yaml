@@ -1,0 +1,36 @@
+# @package trainer
+
+_target_: "pytorch_lightning.trainer.Trainer"
+
+accelerator: null
+accumulate_grad_batches: 1
+benchmark: false
+detect_anomaly: false
+deterministic: false
+enable_checkpointing: ${save}
+enable_model_summary: false
+fast_dev_run: false
+gpus: ${gpus}
+gradient_clip_algorithm: "norm"
+gradient_clip_val: 10
+limit_test_batches: 5
+limit_train_batches: 5
+limit_val_batches: 5
+log_every_n_steps: 1
+max_epochs: 1
+max_steps: -1
+move_metrics_to_cpu: true
+# precision: 32, 16
+precision: 32
+# profiler: null, 'simple', 'advanced', 'pytorch'
+profiler: 
+  _target_: "pytorch_lightning.profiler.PyTorchProfiler"
+  dirpath: "${log.save_dir}/${log.name}/${log.version}"
+  filename: "pytorch_profiler"
+  record_shapes: True
+  profile_memory: True
+  with_stack: True
+  with_flops: True
+  with_modules: True
+resume_from_checkpoint: null
+track_grad_norm: -1

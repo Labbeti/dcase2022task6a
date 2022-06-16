@@ -1,0 +1,13 @@
+# @package token
+
+_target_: "dcase2022task6a.tokenization.aac_tokenizer.AACTokenizer"
+
+level: "word"
+lowercase: false
+clean_punctuation: false
+
+backend: "ptb"
+
+java_path: "${path.java}"
+ext_dpath: "${path.ext}"
+tmp_dpath: "${path.tmp}"

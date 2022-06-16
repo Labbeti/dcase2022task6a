@@ -1,0 +1,12 @@
+# @package test_mode
+
+swa:
+  _target_: "pytorch_lightning.callbacks.StochasticWeightAveraging"
+  # int | float
+  swa_epoch_start: 0.8
+  # float | List[float] | None
+  swa_lrs: null
+  # int
+  annealing_epochs: 10
+  # str "cos" or "linear"
+  annealing_strategy: "cos"

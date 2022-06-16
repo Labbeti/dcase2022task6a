@@ -1,0 +1,19 @@
+# @package _global_
+
+log:
+  save_dir: "${path.log_root}/${hydra:runtime.choices.data}"
+  name: "${hydra:job.name}_${hydra:runtime.choices.pl}"
+  version: "${datetime}_${tag}/sweep_${hydra:job.num}_${hydra:job.override_dirname}"
+
+hydra:
+  # Set args save in board dir
+  output_subdir: "${log.save_dir}/${log.name}/${log.version}/hydra"
+  # Set hydra working dir
+  run:
+    dir: "./"
+  job:
+    config:
+      override_dirname:
+        kv_sep: "_"
+        item_sep: "-"
+        exclude_keys: "${include_keys: hydra.sweeper.search_space}"

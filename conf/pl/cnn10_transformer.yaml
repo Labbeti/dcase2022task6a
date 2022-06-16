@@ -1,0 +1,43 @@
+# @package pl
+
+_target_: "dcase2022task6a.pl_modules.cnn10_transformer.LightningCNN10Transformer"
+
+# Model params
+label_smoothing: 0.1
+monitors: ["cider"]
+# Encoder params
+pretrained_encoder: true
+lens_rounding_mode: "trunc"
+waveform_input: false
+window_size: 1024
+hop_size: 320
+freeze_encoder: "none"
+# Decoder params
+max_output_size: null
+nhead: 4
+d_model: 256
+num_decoder_layers: 6
+decoder_dropout_p: 0.2
+dim_feedforward: 2048
+activation: "gelu"
+# Decoding params
+return_all_preds: false
+use_gumbel: false
+temperature: null
+beam_size: 2
+beam_alpha: 1.0
+top_k: null
+top_p: null
+typical_p: null
+generator: null
+# Optimizer params
+optim_name: "Adam"
+lr: 0.0005
+weight_decay: 1e-6
+betas: [0.9, 0.999]
+eps: 1e-8
+# Scheduler params
+sched_name: "cos_decay"
+sched_n_steps: ${trainer.max_epochs}
+# Other params
+verbose: ${verbose}
