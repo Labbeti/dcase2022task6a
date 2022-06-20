@@ -33,9 +33,9 @@ python -m dcase2022task6a.train pl.beam_size=9
 # Select the path where the training has saved data
 logdir="/absolute/path/to/train/logdir"
 # Test decoding methods
-python -m dcase2022task6a.train trainer=test resume=${logdir} pl.top_k=4 pl.generator=1234
-python -m dcase2022task6a.train trainer=test resume=${logdir} pl.top_p=0.3 pl.generator=1234
-python -m dcase2022task6a.train trainer=test resume=${logdir} pl.typical_p=0.8 pl.generator=1234
+python -m dcase2022task6a.train trainer=test resume=${logdir} pl.beam_size=1 pl.top_k=4 pl.generator=1234
+python -m dcase2022task6a.train trainer=test resume=${logdir} pl.beam_size=1 pl.top_p=0.3 pl.generator=1234
+python -m dcase2022task6a.train trainer=test resume=${logdir} pl.beam_size=1 pl.typical_p=0.8 pl.generator=1234
 ```
 
 ## Installation details
